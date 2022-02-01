@@ -1,0 +1,37 @@
+<h2>Edit the movie</h2>
+
+<form action="/movies/{{foundMovie._id}}/edit" method="post">
+  <label>
+    Title:
+    <input type="text" name="title" value="{{foundMovie.title}}" />
+  </label>
+
+  <label>
+    Genre:
+    <input type="text" name="genre" value="{{foundMovie.genre}}" />
+  </label>
+
+  <label>
+    Plot:
+    <input type="text" name="plot" value="{{foundMovie.plot}}" />
+  </label>
+
+  {{#each foundMovie.cast}}
+    <label>
+      Name:
+      <input type="text" name="name" value="{{this.name}}" />
+    </label>
+
+    <label>
+      Occupation:
+      <input type="text" name="occupation" value="{{this.occupation}}" />
+    </label>
+
+    <label>
+      Phrase:
+      <input type="text" name="catchPhrase" value="{{this.catchPhrase}}" />
+    </label>
+  {{/each}}
+
+  <button>Save changes</button>
+</form>
