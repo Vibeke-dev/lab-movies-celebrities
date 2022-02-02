@@ -51,7 +51,7 @@ router.get("/movie", (req, res, next) => {
     Movie.findById(id)
       .populate('cast') 
       .then(foundMovie => {
-          //console.log(foundMovie) 
+          console.log(foundMovie) 
           res.render('movies/movie-details', {foundMovie})
         })
       .catch(err => {
@@ -75,12 +75,16 @@ router.get('/movies/:id/edit', (req, res, next) => {
     const { id } = req.params;
    
     Movie.findById(id)
-    .populate('cast') 
+    // .populate('cast') 
     .then(foundMovie => { 
-        res.render('movies/edit-movie', {foundMovie})
+    Celebrity.find()
+    .then(allCelebrities => { 
+        res.render('movies/edit-movie', {foundMovie, allCelebrities})
       })  
       .catch(error => next(error));
-  });
+  })
+  .catch(error => next(error));
+});
 
   // POST route to actually make updates on a specific movie
 router.post('/movies/:id/edit', (req, res, next) => {
@@ -89,11 +93,7 @@ router.post('/movies/:id/edit', (req, res, next) => {
   const { title, genre, plot, cast } = req.body;
     
    
-    Movie.findByIdAndUpdate(id, { title, genre, plot }, { new: true })
-      .then(dbMovies => {
-        //console.log(cast)
-        return Celebrity.findByIdAndUpdate(cast, { $push: { movies: dbMovies._id } });
-      })
+    Movie.findByIdAndUpdate(id, { title, genre, plot, cast })
       .then(() => res.redirect('/movie'))
       .catch(error => next(error));
   });

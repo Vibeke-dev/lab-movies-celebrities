@@ -34,9 +34,8 @@
   {{/each}} --}}
 
 <label for="cast-select"> Select celebrity:
-    <select name="cast">
-      <option disable selected value=""></option>
-      {{#each foundMovie.cast}}
+    <select name="cast" multiple>
+      {{#each allCelebrities}}
         <option value="{{this._id}}"> {{this.name}} </option>
       {{/each}}
     </select>
