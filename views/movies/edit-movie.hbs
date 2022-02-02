@@ -16,7 +16,7 @@
     <input type="text" name="plot" value="{{foundMovie.plot}}" />
   </label>
 
-  {{#each foundMovie.cast}}
+  {{!-- {{#each foundMovie.cast}}
     <label>
       Name:
       <input type="text" name="name" value="{{this.name}}" />
@@ -31,7 +31,17 @@
       Phrase:
       <input type="text" name="catchPhrase" value="{{this.catchPhrase}}" />
     </label>
-  {{/each}}
+  {{/each}} --}}
+
+<label for="cast-select"> Select celebrity:
+    <select name="cast">
+      <option disable selected value=""></option>
+      {{#each foundMovie.cast}}
+        <option value="{{this._id}}"> {{this.name}} </option>
+      {{/each}}
+    </select>
+  </label>
+
 
   <button>Save changes</button>
 </form>

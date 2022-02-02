@@ -84,14 +84,18 @@ router.get('/movies/:id/edit', (req, res, next) => {
 
   // POST route to actually make updates on a specific movie
 router.post('/movies/:id/edit', (req, res, next) => {
-    const { id } = req.params;
-    const { title, genre, plot, cast } = req.body;
-    console.log(req.body);
+  //console.log(req.body);  
+  const { id } = req.params;
+  const { title, genre, plot, cast } = req.body;
+    
    
-    Movie.findByIdAndUpdate(id, { title, genre, plot, cast }, { new: true })
-      .then(updatedMovie => res.redirect(`/movies/movies`)) 
+    Movie.findByIdAndUpdate(id, { title, genre, plot }, { new: true })
+      .then(dbMovies => {
+        //console.log(cast)
+        return Celebrity.findByIdAndUpdate(cast, { $push: { movies: dbMovies._id } });
+      })
+      .then(() => res.redirect('/movie'))
       .catch(error => next(error));
   });
 
-  //return Celebrity.findByIdAndUpdate(cast, { $push: { movies: dbMovies._id } });
 module.exports = router;
